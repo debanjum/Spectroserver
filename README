@@ -1,0 +1,75 @@
+SPECTROSERVER
+=============
+A Real Time Web based Spectroscopy Data Plotting Application
+
+
+DEPENDENCIES
+-------------
+Linux,Bash
+Apache
+PHP
+Javascript
+Dygraph: Javascript based Data Plotting Library
+
+
+SERVER: USER INTERFACE
+-----------------------
+PHP: 
+Home[index.php] 
+Project[project.php]
+Readings[readings.php]
+AboutUs[aboutus.php] |
+
+JavaScript: dygraph-combined.js: JavaScript Library used for Plotting Graphs
+CSS: index.css: CSS for styling of WebSite
+
+
+SERVER: DATABASE
+-----------------
+BITSMeteringReading_1[sense/bmr1.txt]: Stores Preprocessed Data of Hostel1
+BITSMeteringProject_1[bmp1.csv]: Stores Data of Hostel1 in CSV
+
+
+SERVER: DATA EXTRACTION & PROCESSING CODE
+-----------------------------------------
+Sense.sh: Script for Sensor Data Retreival and Storage in CSV.
+IPAddressStore: sense/IP: Stores IP addresses for sensor data retreival.
+DataRetreiveError: sense/logfile: Stores wget errors in file
+
+
+SENSOR: DATA SERVING CODE
+-------------------------
+Sensor: uC/BMS.ino: Contains arduino code of uC for sending sensor data.
+SensorErrorNotes: uC/error.txt: Contains error conditions in arduino code
+
+
+PIXMAPS
+---------------
+.images/ewb.png: Placed as etc/lampp/*.ico so as to add custom icon.
+.ewb1.png, bits.png: Used in AboutUs[aboutus.php]
+.bg2.png: Used as website backGround image in index.css
+.bg3.png: Original image stretched to screen dimension for website bckgrnd
+
+
+KNOWN ISSUES
+---------------
+Sensor stops responding after few hours
+	Possible Reasons: connecting wires disturbed, other
+	Solutions: Resetting uC: 
+		Putting reset code in arduino code ? 
+		Server side sensor reset on ?
+Check Website Does'nt break down in different webpages, laptops, browser
+Tried:Chrome,Firefox;[WORKING] 
+Phone: [NOT WORKING] 
+Haven't Tried: Safari, IE, Opera, Other Devices 
+
+
+INSTALLATION
+---------------
+For Application Setup Guide See: INSTALL
+
+
+BUGS
+---------------
+Please file Graphing bugs at:
+https://bitbucket.org/debanjum/spectroserver/issues
