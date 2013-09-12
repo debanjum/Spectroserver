@@ -1,0 +1,5 @@
+char* a: define size >=3 alphabets.[IMP]
+Wi-Fi OFF
+Power Adapter OFF
+CS Disconnect
+DHCP Allocation

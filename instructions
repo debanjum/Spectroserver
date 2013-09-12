@@ -1,0 +1,39 @@
+Initialise Server
+. Install XAMPP
+. Open Terminal
+. Run sudo /opt/lampp/lampp start
+. Edit opt/lampp/htdocs/index.php to point to desired Folder hence on 	
+   typing localhost in browser will point to desired folder[/WebFolder]
+. Open Desired Web Browser: Firefox/Chrome...
+. Type in Address Bar: localhost(=http://localhost)[Check OK]
+
+Initialise Sensor
+.Connect uP with EthernetShield, LDR
+.Connect uP to LAN Port, PowerSupply
+.Start Arduino IDE
+.Install Ethershieldeldo Library
+.Upload bms.ino arduino server sketch to arduino board
+.Ping Sensor IP Address from WebBrowser: [Check OK]
+
+Sensing
+.Open Terminal
+.Navigate 2 Web Folder/sense=opt/lampp/htdocs/xampp/example/WebBuild/sense
+.sudo chmod -R 777 WebFolder/sense
+.Run ./sense.sh from terminal
+
+WebDev
+.Edit Contents in sda5/WebBuild/
+.sudo rm -r opt/lampp/htdocs/xampp/example/WebBuild[=WebFolderLocation]
+.sudo cp -r /media/sda5/WebBuild opt/lampp/htdocs/xampp/example/
+.Reload Page on Web Browser[http://localhost]
+			OR
+.Open Terminal
+.cd /opt/lampp/htdocs/xampp/example/WebBuild [Navigate to Website Folder]
+.sudo gedit abc.php
+.Reload Page on Web Browser[http://localhost]
+			OR
+.Try GitHub for Version Control, Code Distribution and Collaborative Editing
+.Clone Online Directory to /opt/lampp/htdocs/xampp/example/WebBuild
+.Edit pages in offline directory
+.Test by reloading page on Web Browser[http://localhost]
+.Upload to Git Repository, if Working

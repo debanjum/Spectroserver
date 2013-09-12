@@ -1,0 +1,164 @@
+--2012-06-19 18:08:09--  http://192.168.1.27/
+Connecting to 192.168.1.27:80... --2012-06-19 18:13:37--  http://192.168.1.27/
+Connecting to 192.168.1.27:80... failed: No route to host.
+--2012-06-19 21:04:23--  http://192.168.1.27/
+Connecting to 192.168.1.27:80... failed: No route to host.
+--2012-06-19 21:04:29--  http://192.168.1.27/
+Connecting to 192.168.1.27:80... failed: No route to host.
+--2012-06-19 21:04:35--  http://192.168.1.27/
+Connecting to 192.168.1.27:80... failed: No route to host.
+--2012-06-19 21:04:41--  http://192.168.1.27/
+Connecting to 192.168.1.27:80... failed: No route to host.
+--2012-06-19 21:04:47--  http://192.168.1.27/
+Connecting to 192.168.1.27:80... failed: No route to host.
+--2012-06-19 21:04:53--  http://192.168.1.27/
+Connecting to 192.168.1.27:80... failed: No route to host.
+--2012-06-19 21:04:59--  http://192.168.1.27/
+Connecting to 192.168.1.27:80... failed: No route to host.
+--2012-06-19 21:05:05--  http://192.168.1.27/
+Connecting to 192.168.1.27:80... failed: No route to host.
+--2012-06-19 21:05:11--  http://192.168.1.27/
+Connecting to 192.168.1.27:80... failed: No route to host.
+--2012-06-19 21:05:17--  http://192.168.1.27/
+Connecting to 192.168.1.27:80... failed: No route to host.
+--2012-06-19 21:05:23--  http://192.168.1.27/
+Connecting to 192.168.1.27:80... failed: No route to host.
+--2012-06-19 21:05:29--  http://192.168.1.27/
+Connecting to 192.168.1.27:80... failed: No route to host.
+--2013-09-11 16:59:56--  http://192.168.1.27/
+Connecting to 192.168.1.27:80... failed: No route to host.
+--2013-09-11 17:00:02--  http://192.168.1.27/
+Connecting to 192.168.1.27:80... failed: No route to host.
+--2013-09-11 17:00:08--  http://192.168.1.27/
+Connecting to 192.168.1.27:80... failed: No route to host.
+--2013-09-11 17:00:14--  http://192.168.1.27/
+Connecting to 192.168.1.27:80... failed: No route to host.
+--2013-09-11 17:00:21--  http://192.168.1.27/
+Connecting to 192.168.1.27:80... failed: No route to host.
+--2013-09-11 17:00:27--  http://192.168.1.27/
+Connecting to 192.168.1.27:80... failed: No route to host.
+--2013-09-11 17:00:33--  http://192.168.1.27/
+Connecting to 192.168.1.27:80... failed: No route to host.
+--2013-09-11 17:00:39--  http://192.168.1.27/
+Connecting to 192.168.1.27:80... failed: No route to host.
+--2013-09-11 17:00:45--  http://192.168.1.27/
+Connecting to 192.168.1.27:80... failed: No route to host.
+--2013-09-11 17:00:51--  http://192.168.1.27/
+Connecting to 192.168.1.27:80... failed: No route to host.
+--2013-09-11 17:00:57--  http://192.168.1.27/
+Connecting to 192.168.1.27:80... failed: No route to host.
+--2013-09-11 17:01:03--  http://192.168.1.27/
+Connecting to 192.168.1.27:80... failed: No route to host.
+--2013-09-11 17:01:09--  http://192.168.1.27/
+Connecting to 192.168.1.27:80... --2013-09-11 17:04:14--  http://192.168.0.27/
+Connecting to 192.168.0.27:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+index.html: Permission denied
+
+Cannot write to ‘index.html’ (Permission denied).
+--2013-09-11 17:04:16--  http://192.168.0.27/
+Connecting to 192.168.0.27:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+index.html: Permission denied
+
+Cannot write to ‘index.html’ (Permission denied).
+--2013-09-11 17:04:16--  http://192.168.0.27/
+Connecting to 192.168.0.27:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+index.html: Permission denied
+
+Cannot write to ‘index.html’ (Permission denied).
+--2013-09-11 17:04:16--  http://192.168.0.27/
+Connecting to 192.168.0.27:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+index.html: Permission denied
+
+Cannot write to ‘index.html’ (Permission denied).
+--2013-09-11 17:04:16--  http://192.168.0.27/
+Connecting to 192.168.0.27:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+index.html: Permission denied
+
+Cannot write to ‘index.html’ (Permission denied).
+--2013-09-11 17:04:17--  http://192.168.0.27/
+Connecting to 192.168.0.27:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+index.html: Permission denied
+
+Cannot write to ‘index.html’ (Permission denied).
+--2013-09-11 17:04:17--  http://192.168.0.27/
+Connecting to 192.168.0.27:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+index.html: Permission denied
+
+Cannot write to ‘index.html’ (Permission denied).
+--2013-09-11 17:04:17--  http://192.168.0.27/
+Connecting to 192.168.0.27:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+index.html: Permission denied
+
+Cannot write to ‘index.html’ (Permission denied).
+--2013-09-11 17:04:18--  http://192.168.0.27/
+Connecting to 192.168.0.27:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+index.html: Permission denied
+
+Cannot write to ‘index.html’ (Permission denied).
+--2013-09-11 17:04:18--  http://192.168.0.27/
+Connecting to 192.168.0.27:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+index.html: Permission denied
+
+Cannot write to ‘index.html’ (Permission denied).
+--2013-09-11 17:04:18--  http://192.168.0.27/
+Connecting to 192.168.0.27:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+index.html: Permission denied
+
+Cannot write to ‘index.html’ (Permission denied).
+--2013-09-11 17:04:18--  http://192.168.0.27/
+Connecting to 192.168.0.27:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+index.html: Permission denied
+
+Cannot write to ‘index.html’ (Permission denied).
+--2013-09-11 17:04:19--  http://192.168.0.27/
+Connecting to 192.168.0.27:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+index.html: Permission denied
+
+Cannot write to ‘index.html’ (Permission denied).
+--2013-09-11 17:04:19--  http://192.168.0.27/
+Connecting to 192.168.0.27:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+index.html: Permission denied
+
+Cannot write to ‘index.html’ (Permission denied).
+--2013-09-11 17:04:19--  http://192.168.0.27/
+Connecting to 192.168.0.27:80... connected.
+HTTP request sent, awaiting response... --2013-09-12 11:48:32--  http://192.168.0.27/
+Connecting to 192.168.0.27:80... --2013-09-12 11:49:10--  http://192.168.0.27/
+Connecting to 192.168.0.27:80... failed: No route to host.
+--2013-09-12 11:49:16--  http://192.168.0.27/
+Connecting to 192.168.0.27:80... --2013-09-12 11:51:26--  http://192.168.0.27/
+Connecting to 192.168.0.27:80... connected.
+HTTP request sent, awaiting response... --2013-09-12 11:51:33--  http://192.168.0.27/
+Connecting to 192.168.0.27:80... connected.
+HTTP request sent, awaiting response... --2013-09-12 11:52:15--  http://192.168.0.27/
+Connecting to 192.168.0.27:80... connected.
+HTTP request sent, awaiting response... --2013-09-12 11:52:56--  http://172.16.5.59/
+Connecting to 172.16.5.59:80... 
