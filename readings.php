@@ -10,81 +10,22 @@
 <script type="text/javascript">
  function intro()
  {
-  if(document.getElementById('a1').checked) 
-  {
-    if(document.getElementById('mn').checked)
-    {
-      g = new Dygraph(document.getElementById("graphdiv"),"bmp1.csv",
-      {xlabel: "Time",	ylabel: "Load: KW"}          // options
-      );
-    }
-    else if(document.getElementById('hr').checked)
-    {
-      g = new Dygraph(document.getElementById("graphdiv"),"bmp1.csv",
-      {rollPeriod: 6,   showRoller: true,	xlabel: "Time",	ylabel: "Load: KW"}          // options
-      );
-     }
-    else if(document.getElementById('dy').checked)
-    {
-      g = new Dygraph(document.getElementById("graphdiv"),"bmp1.csv",
-      {rollPeriod: 24,   showRoller: true,	xlabel: "Time",	ylabel: "Load: KW"}          // options
-      );
-     }
-    else if(document.getElementById('mt').checked)
-    {
-      g = new Dygraph(document.getElementById("graphdiv"),"bmp1.csv",
-      {rollPeriod: 300,   showRoller: true,	xlabel: "Time",	ylabel: "Load: KW"}          // options
-      );
-     }
-    else if(document.getElementById('an').checked)
-    {
-      g = new Dygraph(document.getElementById("graphdiv"),"bmp1.csv",
-      {rollPeriod: 1000,   showRoller: true,	xlabel: "Time",	ylabel: "Load: KW"}          // options
-      );
-     }
-    else{}
-  }
-  if(document.getElementById('a2').checked) 
-  {
-    if(document.getElementById('mn').checked)
-    {
-      g = new Dygraph(document.getElementById("graphdiv"),"bmp1.csv",
-      {xlabel: "Time",	ylabel: "Load: KW"}          // options
-      );
-    }
-    else if(document.getElementById('hr').checked)
-    {
-      g = new Dygraph(document.getElementById("graphdiv"),"bmp1.csv",
-      {rollPeriod: 6,   showRoller: true,	xlabel: "Time",	ylabel: "Load: KW"}          // options
-      );
-     }
-    else if(document.getElementById('dy').checked)
-    {
-      g = new Dygraph(document.getElementById("graphdiv"),"bmp1.csv",
-      {rollPeriod: 24,   showRoller: true,	xlabel: "Time",	ylabel: "Load: KW"}          // options
-      );
-     }
-    else if(document.getElementById('mt').checked)
-    {
-      g = new Dygraph(document.getElementById("graphdiv"),"bmp1.csv",
-      {rollPeriod: 300,   showRoller: true,	xlabel: "Time",	ylabel: "Load: KW"}          // options
-      );
-     }
-    else if(document.getElementById('an').checked)
-    {
-      g = new Dygraph(document.getElementById("graphdiv"),"bmp1.csv",
-      {rollPeriod: 1000,   showRoller: true,	xlabel: "Time",	ylabel: "Load: KW"}          // options
-      );
-     }
-    else{}
-  }
-}
+      // NEW LINE:
+      if (typeof(g) != 'undefined') g.destroy();
+
+      g = new Dygraph( document.getElementById("graphdiv"), "bmp1.csv", {xlabel: "Time", ylabel: "Load: KW"} );
+
+      window.onresize = function() {g.resize();}
+      setTimeout('intro()',3000);  
+      //g.updateOptions( { 'file': "bmp1.csv" } );
+ }
 </script>
-<title>BITS ENERGY PORTAL</title>
+
+<title>SPECTROSCOPY</title>
 </head>
 <body>
   <div id="header">
-   <h2>ENERGY</h2>
+   <h2>SPECTROSCOPY</h2>
    </div>
    <nav>
     <ul class="topnav">
@@ -98,12 +39,6 @@
    </nav>
   </div>
 
- <div id="graphhostel" style="text-align:right;">
- <form>
- <input type="radio" id="a1" name="Hostel" onclick="intro()"/>AH 1
- <input type="radio" id="a2" name="Hostel" onclick="intro()"/>AH 2
- </form></div>
-
  <div id="graphview" style="text-align:right;">
  <form>
  <input type="radio" id="mn" name="View" onclick="intro()"/>Minute
@@ -113,6 +48,6 @@
  <input type="radio" id="an" name="View" onclick="intro()"/>Annual
  </form></div>
 
- <div id="graphdiv" style="width:1300px; height:485px;"></div>
+ <div id="graphdiv" style="position: absolute; left: 10px; right: 10px; top: 200px; bottom: 10px;"></div>
 </body>
 </html>

@@ -1,7 +1,14 @@
+html { 
+  background: url(images/bg1.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
 body {
 	background-image: url("images/bg1.png");
 	background-position: 100% 0%;
-	background-repeat: no-repeat;
+	background-repeat: repeat;
 	font-family: sans-serif;
 	font-size: 0.7em;
 	font-weight: italic;

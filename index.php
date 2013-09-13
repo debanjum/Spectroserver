@@ -7,11 +7,11 @@
 	<style type="text/css" title="currentStyle" media="screen">
 	 @import "index.css";
 	</style>
-	<title>BITS ENERGY PORTAL</title>
+	<title>SPECTROSCOPY</title>
 </head>
  <body id='homepage' bgcolor="fdfdfd">
   <div id="header">
-   <h2>ENERGY</h2>
+   <h2>SPECTROSCOPY</h2>
    </div>
    <nav>
     <ul class="topnav">
