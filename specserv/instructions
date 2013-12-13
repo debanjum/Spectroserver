@@ -1,0 +1,48 @@
+Initialise Sensor
+  + Connect uC with Sensor(Accelerometer/LDR)
+  + Connect uC(Arduino) to Host Processor (Laptop/RPi/Beaglebone), PowerSupply
+  + Check /dev/ttyACM* communication port location of the arduino on the host processor
+  + Verify Server.js points to the correct com port found from above step 
+  + Start Arduino IDE
+  + Upload spectroserver.ino(or arduino sketch of choice) to arduino board
+
+Initialise Server
+  + Install Node.js
+  + Run =| node install |= to install packages listed in package.json
+  + Start Node Server using =| node server.js |
+
+Visualise Output
+  + Open *.html in web browser of choice to see data
+                        OR
+  + Add this web application folder to /www or the location of the web directory [In case of lampp to /opt/lampp/htdocs]
+  + Start Web Server [In case of lampp /opt/lampp/lampp start]
+  + Open Desired Web Browser: Firefox/Chrome...
+  + Type in Address Bar: localhost(http://localhost)[Check OK]
+
+Web Developement [   =| server.js |= Data Communication Backend | =| *.html |= Web FrontEnd   ]
+  + Edit Contents in the Source Folder
+  + Reload Page on Web Browser[http://localhost OR *.html]
+			OR
+  + Open Terminal
+  + cd /dir/to/source/folder [Navigate to Website Folder]
+  + gedit /file/to/edit
+  + Reload Page on Web Browser[http://localhost OR *.html]
+			OR
+  + Use GitHub for Version Control, Code Distribution and Collaborative Editing
+  + Clone Online Directory to /your/choice/of/local/working/directory
+  + Edit pages in offline directory
+  + Test by reloading page on Web Browser[http://localhost OR *.html]
+  + Upload to Git Repository, if Working
+
+Debugging
+  + In server.js edit io.set('log level', 0); -> io.set('log level', 1);
+  + In Browser Web. Open File>Web Developers>Web Console & Reload/Open Page to see warnings and errors
+  + See port no. socketio serving data at
+  + If "io not defined" error in Web Development of Firefox. Check if # node server.js # running, socketio serving data
+
+Git Basics
+  1. mkdir /path/to/working/folder
+  2. git pull /url/of/required/source/code
+  3. git add /file(s)/to/stage | To Stage Files [Edited/Added Files]
+  4. git commit -m "Commit Message" | Commits in Local Repo [Saves Source Current State]
+  5. git push origin master/branch_name | Pushes to Remote Server

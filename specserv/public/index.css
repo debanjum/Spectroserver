@@ -1,0 +1,117 @@
+html { 
+  background: url(images/bg1.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+body {
+	background-image: url("images/bg1.png");
+	background-position: 100% 0%;
+	background-repeat: repeat;
+	font-family: sans-serif;
+	font-size: 0.7em;
+	font-weight: italic;
+	color: #3d77ba;
+	text-align: left;
+    }
+#header h2 { 
+	background: transparent no-repeat top center;
+	margin-top: 15px;
+	margin-left: 10px;
+	height: 40px; 
+	float: center;
+	font: 4.3em verdana, sans-serif;
+	color: #3d77ba;
+	}
+nav {
+	height: 38px;
+}
+ul.topnav {
+	list-style: none;
+	float: left;
+	width: 100%;
+	background: #222;
+	font-size: 1em;
+	font-weight: 600;
+	margin: 0;
+	padding: 0;
+	height: 38px;
+}
+#centre_nav {
+	text-align: left;
+	margin-left: 10px;
+}
+ul.topnav li {
+	float: left;
+	margin: 0 auto;
+	padding: 0 25px 0 0;
+	position: left;/*Declare X and Y axis base for sub navigation--*/
+	z-index: 300;
+}
+ul.topnav li a {
+	color: #fff;
+	display: block;
+	text-decoration: none;
+	float: left;
+	padding: 10px;
+}
+ul.topnav li a:hover {
+	background:#3d77ba;;/* background color while hovering over main menu items */
+}
+ul.bottomnav {
+	list-style: none;
+	float: left;
+	width: 100%;
+	background: #fff;
+	font-size: 1em;
+	font-weight: 600;
+	margin: 0;
+	padding: 0;
+	height: 38px;
+}
+#centre_nav {
+	text-align: left;
+	margin-left: 10px;
+}
+ul.bottomnav li {
+	float: left;
+	margin: 0 auto;
+	padding: 0 25px 0 0;
+	position: left;/*Declare X and Y axis base for sub navigation--*/
+	z-index: 300;
+}
+ul.bottomnav li a {
+	color: #777;
+	display: block;
+	text-decoration: none;
+	float: left;
+	padding: 10px;
+}
+
+#Intro {
+	background: transparent no-repeat top center;
+	margin-top: 50px;
+	margin-left: 10px;
+	float: center;
+	font: 1.4em verdana, sans-serif;
+	color: #555;
+	}
+
+#p1{
+	background: transparent no-repeat top center;
+	margin-top: 25px;
+	margin-left: 10px;
+	float: center;
+	font: 1.6em verdana, sans-serif;
+	color: #555;
+	}
+#p2{
+	background: transparent no-repeat top center;
+	margin-top: 15px;
+	margin-left: 10px;
+	float: center;
+	font: 1.2em verdana, sans-serif;
+	color: #555;
+	}
+}

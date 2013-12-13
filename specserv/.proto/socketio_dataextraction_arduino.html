@@ -1,0 +1,42 @@
+<html>
+        </head>
+            
+           <script type="text/javascript" src="http://localhost:8000/socket.io/socket.io.js"></script>
+            
+           <script>
+               var socket = io.connect('http://localhost:8000');
+               socket.on
+               ('connect', 
+               function () 
+               {
+                   socket.on
+                   ('message', 
+                   function (msg) 
+                   {
+                       // Convert value to integer
+                       var VALUE = parseInt(msg);
+                       var SPAN  = document.getElementById('sensor_value');
+                       
+                       var text = document.createTextNode(VALUE);
+						if(SPAN.childNodes.length == 0)
+						{
+							SPAN.appendChild(text)							
+						}
+						else
+						{
+							SPAN.firstChild.nodeValue = VALUE;
+						}
+						      
+				   }
+				   );
+			   } 
+			   );
+ 
+           </script>
+       </head>
+       <body>
+           <div role="main">
+               Potentiometer Value: <span id="sensor_value"></span>               
+           </div>
+       </body>
+   </html>
