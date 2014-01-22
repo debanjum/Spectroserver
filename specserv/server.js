@@ -1,5 +1,5 @@
 var SerialPort = require("serialport").SerialPort
-var serialport = new SerialPort("/dev/ttyACM2", 
+var serialport = new SerialPort("/dev/ttyACM0", 
 								{ 
 									baudRate: 57600	, 
 									dataBits: 8		, 
@@ -11,7 +11,7 @@ var serialport = new SerialPort("/dev/ttyACM2",
 var io = require('socket.io').listen(7000); // server listens for socket.io communication at specified port
 io.set('log level', 1); 					// disables debugging. this is optional. you may remove it if desired.
 
-var debug		=	true 	;
+var debug		=	false 	;
 var ard_data	=	"$"		;
 var scan		=	"$"		;
 var resetspec	=	"$"		;
@@ -69,9 +69,11 @@ serialport.on ('open', function ()
 		{
 			cleanData = readData.substring(readData.indexOf('A') + 1, readData.indexOf('B'));
 			readData = '';
-			io.sockets.emit('d', cleanData);
+			io.sockets.emit('d', cleanData);			
 		}
 		
 		if ( debug == true ) console.log('Message : ' + cleanData) ;
+		
+	cleanData = '';	
 	});
 });

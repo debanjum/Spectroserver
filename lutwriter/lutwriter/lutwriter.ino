@@ -129,7 +129,7 @@ void initialize()
   int swave = 0 , ewave = 0 ;
   char temp[5];
   
-      if (debug == true) { Serial.println("init"); }
+  if (debug == true) { Serial.println("init"); }
   SPEC_RESET = false;
   
   strncpy(temp, dat , 4);
@@ -181,6 +181,7 @@ void drivespectrometer()
   int i = 0 ,j = 0       ; 
   double AI = 0.0         ;
   int navg = 150          ;
+  char m[12];
   
    //Writing LookUpTable Data to DAC
    
@@ -188,13 +189,14 @@ void drivespectrometer()
   
   if (SPEC_RESET == true) { SPEC_RESET = false; Serial.print("RESET: "); Serial.println(SPEC_RESET); }
 
-  while ( (si == ei) && (Serial.available() <= 0 ) && (SPEC_RESET != true) )          // if the Start and End Wavelength are the Same then Bandwdigth is 0 resulting in scanning only one Wavelength
+
+  while ( (si == ei) && (Serial.available() <= 0 ) && (SPEC_RESET != true) ) //if start, end wavelength are same then bandwidth 0, so only 1 wavelength scanned
   {
     setVoltage(VCOD[si]);
-    delay(100);    
-    Serial.print("A" );     
+    delay(10);    
+    Serial.print("A" );
     Serial.print(float((analogRead(A0)*ADC_VREF)/ADC_RES),3);    
-    Serial.print("B" ); 
+    Serial.print("B" );
   }
 
   if (si != ei)
@@ -206,13 +208,15 @@ void drivespectrometer()
       for ( j = 0 ; j < navg ; j++ )
       {
         AI = AI + analogRead(A0);
-        delayMicroseconds(750);
+        delayMicroseconds(500);
       }
       AI = AI/navg ;               
       
-      Serial.print("A" );      
-      Serial.print((AI*ADC_VREF/ADC_RES),3);    
-      Serial.print("B" );      
+      Serial.print("A" );
+//      sprintf(m, "%.05f",  );
+      Serial.print((AI*ADC_VREF/ADC_RES),5);
+      Serial.print("B" );
+      delay(1000);            
       
       AI = 0.0 ;
     }
