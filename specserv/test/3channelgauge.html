@@ -1,0 +1,90 @@
+<html>
+     </head>            
+
+    <script type="text/javascript" src="http://localhost:7000/socket.io/socket.io.js"></script>
+	<script type="text/javascript" src="./libraries/RGraph.gauge.js" ></script>
+	<script type="text/javascript" src="./libraries/RGraph.common.core.js" ></script>
+       
+	<canvas id="cvs" width="1300" height="450">[No canvas support]</canvas>
+
+	<script>
+	//Connects to Node Data Server
+	var socket = io.connect('http://localhost:7000');
+	socket.on ('connect', function () 
+	{
+	  socket.on ('cm1', function (msg) 
+	  {
+	    // Convert value to integer
+	       var VALUE = (parseInt(msg)/675)*100-50;
+
+	     // Push to Graph Data Array
+	        var myGauge1 = new RGraph.Gauge('cvs', -50, 50,VALUE);
+	        myGauge1.Set('chart.centerx', 120);
+	        myGauge1.Set('chart.radius', 100);
+	        myGauge1.Draw();
+
+	        var SPAN  = document.getElementById('channel1');
+	                       
+	        var text = document.createTextNode(VALUE);
+	        if(SPAN.childNodes.length == 0)
+	       {	SPAN.appendChild(text) }
+	        else
+	       {	SPAN.firstChild.nodeValue = VALUE; }
+	  });
+	  socket.on ('cm2', function (msg) 
+	  {
+	    // Convert value to integer
+	       var VALUE = (parseInt(msg)/675)*100-50;
+
+	     // Push to Graph Data Array
+	        var myGauge1 = new RGraph.Gauge('cvs', -50, 50,VALUE);
+	        myGauge1.Set('chart.centerx',620);
+	        myGauge1.Set('chart.radius', 100);
+	        myGauge1.Draw();
+
+	        var SPAN  = document.getElementById('channel2');
+	                       
+	        var text = document.createTextNode(VALUE);
+	        if(SPAN.childNodes.length == 0)
+	       {	SPAN.appendChild(text) }
+	        else
+	       {	SPAN.firstChild.nodeValue = VALUE; }
+	  });
+	  socket.on ('cm3', function (msg) 
+	  {
+	    // Convert value to integer
+	       var VALUE = (parseInt(msg)/675)*100-50;
+
+	     // Push to Graph Data Array
+	        var myGauge1 = new RGraph.Gauge('cvs', -50, 50,VALUE);
+	        myGauge1.Set('chart.centerx', 1120);
+	        myGauge1.Set('chart.radius', 100);
+	        myGauge1.Draw();
+
+	        var SPAN  = document.getElementById('channel3');
+	                       
+	        var text = document.createTextNode(VALUE);
+	        if(SPAN.childNodes.length == 0)
+	       {	SPAN.appendChild(text) }
+	        else
+	       {	SPAN.firstChild.nodeValue = VALUE; }
+	  });
+	});
+
+	</script>
+      </head>
+      <body>
+           <div role="main">
+	     Channel 1:<span id="channel1"></span>               
+	     Channel 2:<span id="channel2"></span>               
+	     Channel 3:<span id="channel3"></span>               
+           </div>
+
+          <div style="float: right">
+     	     <canvas id="cvs" width="1000" height="450">[No canvas support]</canvas><br />
+     	     <span style="margin-left: 25px">
+     	       Number of updates: <span id="num_updates">0</span>
+     	     </span>
+	  </div>
+      </body>
+</html>

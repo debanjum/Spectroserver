@@ -1,6 +1,6 @@
 {
   "name": "spectroserver",
-  "description": "spectroserver test app",
+  "description": "spectrometer control and spectral data serving application",
   "version": "0.0.1",
   "private": true,
   "dependencies": {
