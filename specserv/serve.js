@@ -1,5 +1,5 @@
 (function() {
-  var SerialPort, app, ard_data, cleanData, debug, express, fs, http, io, port, readData, resetspec, scan, serialport, server, sf;
+  var SerialPort, app, ard_data, cleanData, client, debug, express, fs, http, io, port, readData, resetspec, scan, serialport, server, sf;
 
   SerialPort = require('serialport').SerialPort;
 
@@ -10,6 +10,8 @@
   io = require('socket.io');
 
   http = require('http');
+
+  redis         =   require ('connect-redis')(express);
 
   port = '/dev/ttyACM0';
 
@@ -33,8 +35,25 @@
 
   io.set('log level', 1);
 
+  client = redis.createClient();
+
+  app.use(express.static(__dirname + '/public'));
+
+  app.use(express.cookieParser());
+
+  app.use(express.session({
+    secret: "CoffeeSpectrum",
+    store: new redses,
+    cookie: {
+      maxAge: 60000
+    }
+  }));
+
+  app.set('view engine', 'jade');
+
   app.get('/', function(req, res) {
-    return res.sendfile(__dirname + '/client.html');
+    res.sendfile(__dirname + '/public/client.html');
+    return req.session.views++;
   });
 
   app.get('/libraries/RGraph.line.js', function(req, res) {
@@ -74,10 +93,13 @@
       resetspec = "#2!.";
       if (debug === true) console.log(resetspec);
       if (sf === true) {
-        return serialport.write(resetspec);
+        serialport.write(resetspec);
       } else {
-        return socket.emit('sff');
+        socket.emit('sff');
       }
+      socket.on('savespec', function() {});
+      resetspec = "#3!.";
+      if (debug === true) return console.log(savespec);
     });
   });
 
