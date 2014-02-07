@@ -4,7 +4,9 @@ express 	    = 	require 'express'
 io 			      =   require 'socket.io'
 http 		      =   require 'http'
 redis         =   require 'redis'
-client        =   redis.createClient "/tmp/redis.sock"
+redses        =   require('connect-redis')(express)
+#client        =   redis.createClient '/var/run/redis/redis.sock'
+client        =   redis.createClient
 
 port 		      =   '/dev/ttyACM0'
 serialport	  =   null
@@ -23,7 +25,8 @@ io.set 'log level', 1
 # Session configuration
 app.use express.static(__dirname + '/public')
 app.use express.cookieParser()
-app.use express.session {secret: "CoffeeSpectrum", store: new redses, cookie: { maxAge: 60000 } }
+#app.use express.session {secret: "CoffeeSpectrum", store: new redses({client: client, db: 2}), cookie: { maxAge: 60000 } }
+#app.use express.session {secret: "CoffeeSpectrum", cookie: { maxAge: 60000 } }
 app.set 'view engine', 'jade'
 
 # Routes
@@ -51,9 +54,9 @@ io.sockets.on 'connection', (socket) ->
 		if sf is true then serialport.write ard_data else socket.emit 'sff'
 		
 	socket.on 'scanspec', ->
-		scan = "#1!."
-		if debug is true then console.log scan
-		if sf is true then serialport.write scan else socket.emit 'sff'
+		scanspec = "#1!."
+		if debug is true then console.log scanspec
+		if sf is true then serialport.write scanspec else socket.emit 'sff'
 		
 	socket.on 'resetspec', ->
 		resetspec = "#2!."
@@ -61,18 +64,18 @@ io.sockets.on 'connection', (socket) ->
 		if sf is true then serialport.write resetspec else socket.emit 'sff'
 
   socket.on 'savespec', ->
-		resetspec = "#3!."
+		savespec = "#3!."
 		if debug is true then console.log savespec
-    #Creating Database ??
-#    client.select(3, function(err,log) { console.log(err,log});  # Selecting redis DB; Default is 0
-#    client.on("error", function (err) { console.log("Error " + err); });
-#    client.rpush('spectra',d1); 
+    # Creating Database ??
+#    `client.select(2, function (err,log) { console.log(err,log); });` # Selecting redis DB; Default is 0
+#    `client.on("error", function (err) { console.log("Error " + err); });`
+#    `client.rpush('spectra', d1);`
       #OR
 #    client.rpush.apply(client, ['spectra'].concat(d1).concat(function(err, ok){ console.log(err, ok); }));
 
 cleanData = '' # this stores the clean data
 readData = ''  # this stores the buffer
-sf = false
+sf = false     # flag to write to serialport, for communicating with arduino, ...
 
 #Checking arduino connected to usb port
 console.log "Starting..."

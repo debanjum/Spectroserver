@@ -1,5 +1,5 @@
 (function() {
-  var SerialPort, app, ard_data, cleanData, client, debug, express, fs, http, io, port, readData, resetspec, scan, serialport, server, sf;
+  var SerialPort, app, ard_data, cleanData, client, debug, express, fs, http, io, port, readData, redis, redses, resetspec, scan, serialport, server, sf;
 
   SerialPort = require('serialport').SerialPort;
 
@@ -11,7 +11,11 @@
 
   http = require('http');
 
-  redis         =   require ('connect-redis')(express);
+  redis = require('redis');
+
+  redses = require('connect-redis')(express);
+
+  client = redis.createClient;
 
   port = '/dev/ttyACM0';
 
@@ -35,25 +39,14 @@
 
   io.set('log level', 1);
 
-  client = redis.createClient();
-
   app.use(express.static(__dirname + '/public'));
 
   app.use(express.cookieParser());
 
-  app.use(express.session({
-    secret: "CoffeeSpectrum",
-    store: new redses,
-    cookie: {
-      maxAge: 60000
-    }
-  }));
-
   app.set('view engine', 'jade');
 
   app.get('/', function(req, res) {
-    res.sendfile(__dirname + '/public/client.html');
-    return req.session.views++;
+    return res.sendfile(__dirname + '/public/client.html');
   });
 
   app.get('/libraries/RGraph.line.js', function(req, res) {
@@ -98,7 +91,8 @@
         socket.emit('sff');
       }
       socket.on('savespec', function() {});
-      resetspec = "#3!.";
+      save = "#3!.";
+      client.rpush.apply(client, ['spectra'].concat(d1).concat(function(err, ok){ console.log(err, ok); }));
       if (debug === true) return console.log(savespec);
     });
   });
