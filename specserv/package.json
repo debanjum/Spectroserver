@@ -4,6 +4,8 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "mongodb": "latest",
+    "mongoose": "latest",
     "hiredis":"latest",
     "redis":"latest",
     "connect-redis": "latest",

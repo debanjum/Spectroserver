@@ -1,5 +1,5 @@
 (function() {
-  var SerialPort, app, ard_data, cleanData, client, debug, express, fs, http, io, port, readData, redis, redses, resetspec, scan, serialport, server, sf;
+  var SerialPort, Spectra, SpectraSchema, app, ard_data, cleanData, client, debug, express, fs, http, io, mongoose, port, readData, redis, redses, resetspec, scan, serialport, server, sf;
 
   SerialPort = require('serialport').SerialPort;
 
@@ -17,6 +17,8 @@
 
   client = redis.createClient;
 
+  mongoose = require('mongoose');
+
   port = '/dev/ttyACM0';
 
   serialport = null;
@@ -28,6 +30,21 @@
   scan = "$";
 
   resetspec = "$";
+
+  mongoose.connect('mongodb://localhost/spectra');
+
+  SpectraSchema = new mongoose.Schema({
+    key: {
+      type: Number,
+      min: 0
+    },
+    value: {
+      type: Number,
+      min: 0
+    }
+  });
+
+  Spectra = mongoose.model("Spectra", SpectraSchema);
 
   app = express();
 
@@ -46,7 +63,8 @@
   app.set('view engine', 'jade');
 
   app.get('/', function(req, res) {
-    return res.sendfile(__dirname + '/public/client.html');
+    res.sendfile(__dirname + '/public/client.html');
+    return req.session.views++;
   });
 
   app.get('/libraries/RGraph.line.js', function(req, res) {
@@ -74,26 +92,38 @@
       }
     });
     socket.on('scanspec', function() {
-      scan = "#1!.";
-      if (debug === true) console.log(scan);
+      var scanspec;
+      scanspec = "#1!.";
+      if (debug === true) console.log(scanspec);
       if (sf === true) {
-        return serialport.write(scan);
+        return serialport.write(scanspec);
       } else {
         return socket.emit('sff');
       }
     });
-    return socket.on('resetspec', function() {
+    socket.on('resetspec', function() {
       resetspec = "#2!.";
       if (debug === true) console.log(resetspec);
       if (sf === true) {
-        serialport.write(resetspec);
+        return serialport.write(resetspec);
       } else {
-        socket.emit('sff');
+        return socket.emit('sff');
       }
-      socket.on('savespec', function() {});
-      save = "#3!.";
-      client.rpush.apply(client, ['spectra'].concat(d1).concat(function(err, ok){ console.log(err, ok); }));
-      if (debug === true) return console.log(savespec);
+    });
+    return socket.on('savespec', function(startwave, stopwave, spectra) {
+      var Spec, i, savespec, wavelength, _results;
+      savespec = "#3!.";
+      if (debug === true) console.log(startwave, stopwave);
+      _results = [];
+      for (wavelength = startwave; startwave <= stopwave ? wavelength <= stopwave : wavelength >= stopwave; startwave <= stopwave ? wavelength++ : wavelength--) {
+        Spec = new Spectra({
+          key: wavelength,
+          value: spectra[wavelength]
+        });
+        Spec.save(function (err) {if (err) console.log ('Error on spectrum save!')});;
+        _results.push(i = i + 5);
+      }
+      return _results;
     });
   });
 
@@ -127,7 +157,7 @@
         if (readData.indexOf('A') >= 0 && readData.indexOf('B') >= 0) {
           cleanData = readData.substring(readData.indexOf('A') + 1, readData.indexOf('B'));
           readData = '';
-          io.sockets.emit('d', cleanData);
+          io.sockets.emit('data', cleanData);
         }
         if (debug === true) return console.log('Message : ' + cleanData);
       });

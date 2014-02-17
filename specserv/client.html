@@ -1,27 +1,27 @@
 <html>
-	</head>            
+	<head>            
 
 		<script type="text/javascript" src="http://172.16.5.14:7000/socket.io/socket.io.js"></script>    
-		<script type="text/javascript" src="/libraries/RGraph.line.js" ></script>
-		<script type="text/javascript" src="/libraries/RGraph.common.core.js" ></script>
+		<script type="text/javascript" src="./libraries/RGraph.line.js" ></script>
+		<script type="text/javascript" src="./libraries/RGraph.common.core.js" ></script>
 		<canvas id="cvs" width="1000" height="450">[No canvas support]</canvas>
 
 		<script>
-			d1  = []; // Graph Data Array
+			spectra  = []; // Graph Data Array
 			l   = 0;  // The letter 'L' - NOT a one
 			var socket = io.connect('http://172.16.5.14:7000');
 			// Pre-pad the arrays with null values
 			for (var i=0; i<1000; ++i) 
-			{  	d1.push(null);  }
+			{  	spectra.push(null);  }
 
-			function getGraph(id, d1)
+			function getGraph(id, spectra)
 			{	
 				// After creating the chart, store it on the global window object
 				if (!window.__rgraph_line__) {
-					window.__rgraph_line__ = new RGraph.Line(id, d1);
+					window.__rgraph_line__ = new RGraph.Line(id, spectra);
 					window.__rgraph_line__.Set('chart.background.barcolor1', 'white');
 					window.__rgraph_line__.Set('chart.background.barcolor2', 'white');	           	           
-					window.__rgraph_line__.Set('chart.title.xaxis', 'Time');
+					window.__rgraph_line__.Set('chart.title.xaxis', 'Wavelength');
 					window.__rgraph_line__.Set('chart.title.yaxis', 'Voltage');
 					window.__rgraph_line__.Set('chart.title.vpos', 0.5);
 					window.__rgraph_line__.Set('chart.title', 'Spectral Profile');
@@ -46,25 +46,25 @@
 
 				_RG.Clear(document.getElementById("cvs"));
 			
-				var graph = getGraph('cvs', d1);
+				var graph = getGraph('cvs', spectra);
 				graph.Draw();
 								
 				socket.on ('connect', function () //Connects to Node Data Server
 					 {
-						 socket.on ('d', function (msg) 
+						 socket.on ('data', function (msg) 
 						 {	                     
-							 var VALUE = parseFloat(msg);	// Convert value to integer
+							 var VALUE = parseFloat(msg);	// Convert message to float
 							
-							 d1.push(VALUE);				// Push to Graph Data Array
+							 spectra.push(VALUE);				// Push to Graph Data Array
 
-							 var SPAN  = document.getElementById('sensor_value');
+							 var SPAN  = document.getElementById('sensorvalue');
 							   
 							 var text = document.createTextNode(VALUE);
 							 
 							 if(SPAN.childNodes.length == 0) {	SPAN.appendChild(text) }
 							 else {	SPAN.firstChild.nodeValue = VALUE; }
 							 
-							 if (d1.length > 500) { d1 = _RG.array_shift(d1);  }
+							 if (spectra.length > 500) { spectra = _RG.array_shift(spectra);  }
 						});
 					 });
 					   
@@ -72,43 +72,33 @@
 				{  alert('[MSIE] Sorry, Internet Explorer 8 is not fast enough to support animated charts'); } 
 				else 
 				{  
-					window.__rgraph_line__.original_data[0] = d1;				
+					window.__rgraph_line__.original_data[0] = spectra;				
 					setTimeout(drawGraph, 10);	//Delay between Graph Updates
 				}
 			}
 			
 			drawGraph();
 			
-			socket.on( 'sff', function() 
-			{
-				
-			} );
+			socket.on( 'sff', function() {	} );
 
 			function initspec(start,stop) 
-			{
-				 socket.emit('initspec', start, stop );
-			}
+			{	socket.emit('initspec', start, stop );	}
 			
 			function scanspec()
-			{
-				socket.emit('scanspec');
-			}
+			{	socket.emit('scanspec');	}
 			
 			function resetspec()
-			{
-				socket.emit('resetspec');
-			}
-			function save(d1)
-			{
-				socket.emit('savespec', d1 );
-			} 
+			{	socket.emit('resetspec');	}
+			
+			function save(start,stop,spectra)
+			{	socket.emit('savespec', start, stop, spectra );	} 
 
 	</script>
 	</head>
       
       <body>
            <div role="main">
-               Analog Out: <span id="sensor_value"></span>
+               Analog Out: <span id="sensorvalue"></span>
            </div>
      	  
 		 <form name="input" action="" method="post">
@@ -117,7 +107,7 @@
 			<input type="button" value="reset" onClick=resetspec()>
 			<input type="button" value="intialise" onClick=initspec(startw.value,stopw.value)>
 			<input type="button" value="scan" onClick=scanspec()>
-			<input type="button" value="save" onClick=save(d1)>
+			<input type="button" value="save" onClick=save(startw.value,stopw.value,spectra)>
 		 </form>
       </body>
 
