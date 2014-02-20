@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Spectra]]></title>
+  <link href="http://172.16.5.14/spectra/atom.xml" rel="self"/>
+  <link href="http://172.16.5.14/spectra/"/>
+  <updated>2014-02-20T16:09:31+05:30</updated>
+  <id>http://172.16.5.14/spectra/</id>
+  <author>
+    <name><![CDATA[CEERI]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+</feed>

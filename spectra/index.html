@@ -1,0 +1,210 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Spectra</title>
+	<meta name="author" content="CEERI">
+
+	
+	<meta name="description" content="[No canvas support] spectra = []; // Graph Data Array l = 0; // The letter 'L' - NOT a one var socket = io.connect('http://172.16.5.14:7000'); // &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/spectra/atom.xml" rel="alternate" title="Spectra" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/spectra/favicon.png" rel="shortcut icon">
+	<link href="/spectra/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async="true" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/spectra/">Spectra</a></h1>
+<nav id="main-nav"><ul class="main">
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:172.16.5.14/spectra">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		
+		
+		<a class="github" href="https://github.com/debanjum/spectroserver" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/spectra/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:172.16.5.14/spectra">
+	</form>
+</nav>
+<h2><a>Spectral Data Visualisation & Spectrophotometer Control</a></h2>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner">	<head>            
+
+		<script type="text/javascript" src="http://172.16.5.14:7000/socket.io/socket.io.js"></script>    
+		<script type="text/javascript" src="/spectra/javascripts/RGraph.line.js" ></script>
+		<script type="text/javascript" src="/spectra/javascripts/RGraph.common.core.js" ></script>
+		<canvas id="cvs" width="1000" height="450">[No canvas support]</canvas>
+
+		<script>
+			spectra  = []; // Graph Data Array
+			l   = 0;  // The letter 'L' - NOT a one
+			var socket = io.connect('http://172.16.5.14:7000');
+			// Pre-pad the arrays with null values
+			for (var i=0; i<1000; ++i) 
+			{  	spectra.push(null);  }
+
+			function getGraph(id, spectra)
+			{	
+				// After creating the chart, store it on the global window object
+				if (!window.__rgraph_line__) {
+					window.__rgraph_line__ = new RGraph.Line(id, spectra);
+					window.__rgraph_line__.Set('chart.background.barcolor1', 'white');
+					window.__rgraph_line__.Set('chart.background.barcolor2', 'white');	           	           
+					window.__rgraph_line__.Set('chart.title.xaxis', 'Wavelength');
+					window.__rgraph_line__.Set('chart.title.yaxis', 'Voltage');
+					window.__rgraph_line__.Set('chart.title.vpos', 0.5);
+					window.__rgraph_line__.Set('chart.title', 'Spectral Profile');
+					window.__rgraph_line__.Set('chart.title.yaxis.pos', 0.5);
+					window.__rgraph_line__.Set('chart.title.xaxis.pos', 0.5);
+					window.__rgraph_line__.Set('chart.colors', ['black']);
+					window.__rgraph_line__.Set('chart.linewidth',1.5);	            
+					window.__rgraph_line__.Set('chart.yaxispos', 'right');
+					window.__rgraph_line__.Set('chart.ymax', 3.3);
+					window.__rgraph_line__.Set('chart.ymin', 0);
+					window.__rgraph_line__.Set('chart.yticks', 1);
+					window.__rgraph_line__.Set('chart.xticks', 5);
+					window.__rgraph_line__.Set('units.post', 'V');	            
+				}
+				return window.__rgraph_line__;
+			}
+		
+			function drawGraph ()
+			{
+				// "cache" this in a local variable
+				var _RG = RGraph;	
+
+				_RG.Clear(document.getElementById("cvs"));
+			
+				var graph = getGraph('cvs', spectra);
+				graph.Draw();
+								
+				socket.on ('connect', function () //Connects to Node Data Server
+					 {
+						 socket.on ('data', function (msg) 
+						 {	                     
+							 var VALUE = parseFloat(msg);	// Convert message to float
+							
+							 spectra.push(VALUE);				// Push to Graph Data Array
+
+							 var SPAN  = document.getElementById('sensorvalue');
+							   
+							 var text = document.createTextNode(VALUE);
+							 
+							 if(SPAN.childNodes.length == 0) {	SPAN.appendChild(text) }
+							 else {	SPAN.firstChild.nodeValue = VALUE; }
+							 
+							 if (spectra.length > 500) { spectra = _RG.array_shift(spectra);  }
+						});
+					 });
+					   
+				if (document.all && _RG.isIE8()) 
+				{  alert('[MSIE] Sorry, Internet Explorer 8 is not fast enough to support animated charts'); } 
+				else 
+				{  
+					window.__rgraph_line__.original_data[0] = spectra;				
+					setTimeout(drawGraph, 10);	//Delay between Graph Updates
+				}
+			}
+			
+			drawGraph();
+			
+			socket.on( 'sff', function() {	} );
+
+			function initspec(start,stop) 
+			{	socket.emit('initspec', start, stop );	}
+			
+			function scanspec()
+			{	socket.emit('scanspec');	}
+			
+			function resetspec()
+			{	socket.emit('resetspec');	}
+			
+			function save(start,stop,spectra)
+			{	socket.emit('savespec', start, stop, spectra );	} 
+
+	</script>
+	</head>
+      
+      <body>
+           <div role="main">
+               Analog Out: <span id="sensorvalue"></span>
+           </div>
+     	  
+		 <form name="input" action="" method="post">
+			Start Wavelength: <input type="text" name="startwave" id="startw" ><br />
+			Stop Wavelength: <input type="text" name="stopwave" id="stopw" ><br />
+			<input type="button" value="reset" onClick=resetspec()>
+			<input type="button" value="intialise" onClick=initspec(startw.value,stopw.value)>
+			<input type="button" value="scan" onClick=scanspec()>
+			<input type="button" value="save" onClick=save(startw.value,stopw.value,spectra)>
+		 </form>
+      </body>
+
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
+
+    CEERI
+
+<span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</footer>
+	<script src="/spectra/javascripts/slash.js"></script>
+<script src="/spectra/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+
+
+</body>
+</html>

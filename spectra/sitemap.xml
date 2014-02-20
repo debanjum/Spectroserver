@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
+    <url>
+        <loc>http://172.16.5.14/spectra/robots.txt</loc>
+        <lastmod>2014-02-20T13:46:38+05:30</lastmod>
+    </url>
+    <url>
+        <loc>http://172.16.5.14/spectra/</loc>
+        <lastmod>2014-02-20T16:09:23+05:30</lastmod>
+    </url>
+    <url>
+        <loc>http://172.16.5.14/spectra/blog/archives/</loc>
+        <lastmod>2014-02-20T14:32:00+05:30</lastmod>
+    </url>
+</urlset>
