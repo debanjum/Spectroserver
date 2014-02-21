@@ -1,5 +1,5 @@
 (function() {
-  var SerialPort, Spectra, SpectraSchema, app, ard_data, cleanData, client, debug, express, fs, http, io, mongoose, port, readData, redis, redses, resetspec, scan, serialport, server, sf;
+  var SerialPort, Spectra, SpectraSchema, app, ard_data, cleanData, client, db, debug, express, fs, http, io, mongoose, port, readData, redis, redses, resetspec, scan, serialport, server, sf;
 
   SerialPort = require('serialport').SerialPort;
 
@@ -23,7 +23,7 @@
 
   serialport = null;
 
-  debug = false;
+  debug = true;
 
   ard_data = "$";
 
@@ -32,6 +32,12 @@
   resetspec = "$";
 
   mongoose.connect('mongodb://localhost/spectra');
+
+  db = mongoose.connection;
+
+  db.on('error', console.error.bind(console, 'connection error:'));;
+
+  db.once('open', function callback () { console.log('Conntected To Mongo Database'); });;
 
   SpectraSchema = new mongoose.Schema({
     key: {
@@ -44,7 +50,7 @@
     }
   });
 
-  Spectra = mongoose.model("Spectra", SpectraSchema);
+  Spectra = mongoose.model('Spectra', SpectraSchema);
 
   app = express();
 
@@ -54,7 +60,7 @@
 
   io = io.listen(server);
 
-  io.set('log level', 1);
+  io.set('log level', 3);
 
   app.use(express.static(__dirname + '/public'));
 
@@ -113,15 +119,26 @@
     return socket.on('savespec', function(startwave, stopwave, spectra) {
       var Spec, i, savespec, wavelength, _results;
       savespec = "#3!.";
-      if (debug === true) console.log(startwave, stopwave);
+      if (debug === true) {
+        console.log(startwave, stopwave, spectra[979], spectra[978], spectra[980], spectra[981], spectra[982]);
+      }
+      wavelength = startwave;
       _results = [];
-      for (wavelength = startwave; startwave <= stopwave ? wavelength <= stopwave : wavelength >= stopwave; startwave <= stopwave ? wavelength++ : wavelength--) {
-        Spec = new Spectra({
-          key: wavelength,
-          value: spectra[wavelength]
-        });
-        Spec.save(function (err) {if (err) console.log ('Error on spectrum save!')});;
-        _results.push(i = i + 5);
+      while (wavelength <= stopwave) {
+        i = 999 - (stopwave - wavelength);
+        Spec = new Spectra;
+        Spec.key = wavelength;
+        Spec.value = spectra[i];
+        Spec.save;
+        console.log(i, wavelength, spectra[i]);
+        _results.push((function() {
+          var _results2;
+          _results2 = [];
+          for (i = 1; i <= 5; i++) {
+            _results2.push(wavelength++);
+          }
+          return _results2;
+        })());
       }
       return _results;
     });

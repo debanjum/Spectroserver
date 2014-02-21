@@ -11,28 +11,31 @@ mongoose      =   require 'mongoose'
 
 port 		      =   '/dev/ttyACM0'
 serialport	  =   null
-debug		      =	  false
+debug		      =	  true
 ard_data	    =	  "$"
 scan	        =	  "$"
 resetspec	    =	  "$"
 
 # Connect to DB
 mongoose.connect('mongodb://localhost/spectra');
+db = mongoose.connection
+`db.on('error', console.error.bind(console, 'connection error:'));`
+`db.once('open', function callback () { console.log('Conntected To Mongo Database'); });`
 
 # Creating Schema
 SpectraSchema = new mongoose.Schema(
   key: { type: Number, min: 0 }
   value: { type: Number, min: 0 }
   )
-# Creating Model 'SpectraSchema' in 'Spectra' Collection
-Spectra = mongoose.model "Spectra", SpectraSchema
+# Creating Model 'Spectra' with 'SpectraSchema' Schema
+Spectra = mongoose.model 'Spectra', SpectraSchema
 
 # Server listens for get requests, socket.io communication at http port
 app = express()
 server = http.createServer app
 server.listen 7000
 io = io.listen server
-io.set 'log level', 1
+io.set 'log level', 3
 
 # Session configuration
 app.use express.static(__dirname + '/public')
@@ -77,13 +80,23 @@ io.sockets.on 'connection', (socket) ->
 
 	socket.on 'savespec', (startwave,stopwave,spectra) ->
 		savespec = "#3!."
-		if debug is true then console.log startwave,stopwave
-		
+		if debug is true then console.log startwave,stopwave,spectra[979],spectra[978],spectra[980],spectra[981],spectra[982]
+		wavelength = startwave
 		# Storing Spectra in Database [if can't pass "spectra" array then pass each value whenever recieved for each value and save only when button pressed]
-		for wavelength in [startwave..stopwave]
-			Spec = new Spectra ( key: wavelength, value: spectra[wavelength] )       # storing data in spec collection
-			`Spec.save(function (err) {if (err) console.log ('Error on spectrum save!')});`		# saving to filesystem w/ error catching
-			i = i + 5																			# wavelength step size
+		while wavelength <= stopwave
+        i = 999 - (stopwave - wavelength)
+        Spec = new Spectra
+        Spec.key = wavelength
+        Spec.value = spectra[i]
+        Spec.save
+        console.log i, wavelength, spectra[i], Spec.find
+        for i in [1..5]
+          wavelength++
+        #Spec.find
+        
+        
+#`Spec.save(function (err) {if (err) console.log ('Error on spectrum save!')});`
+        
 
 		# Creating Redis Database ??
 			#`client.select(2, function (err,log) { console.log(err,log); });` # Selecting redis DB; Default is 0
