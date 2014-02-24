@@ -49,7 +49,7 @@
 		
 		
 		
-		<a class="github" href="https://github.com/debanjum/spectroserver" title="GitHub">GitHub</a>
+		<a class="github" href="https://github.com/debanjum/Spectroserver" title="GitHub">GitHub</a>
 		
     
 		
@@ -155,7 +155,9 @@
 			socket.on( 'sff', function() {	} );
 
 			function initspec(start,stop) 
-			{	socket.emit('initspec', start, stop );	}
+			{	drawGraph();
+				socket.emit('initspec', start, stop );
+			}
 			
 			function scanspec()
 			{	socket.emit('scanspec');	}
@@ -166,6 +168,11 @@
 			function save(start,stop,spectra)
 			{	socket.emit('savespec', start, stop, spectra );	} 
 
+			function openspec(openw)
+			{	drawGraph();
+				socket.emit('openspec', openw );
+				
+			} 
 	</script>
 	</head>
       
@@ -177,10 +184,13 @@
 		 <form name="input" action="" method="post">
 			Start Wavelength: <input type="text" name="startwave" id="startw" ><br />
 			Stop Wavelength: <input type="text" name="stopwave" id="stopw" ><br />
+			Open Spectra <input type="value" name="openwave" id="openw" ><br />
 			<input type="button" value="reset" onClick=resetspec()>
 			<input type="button" value="intialise" onClick=initspec(startw.value,stopw.value)>
 			<input type="button" value="scan" onClick=scanspec()>
 			<input type="button" value="save" onClick=save(startw.value,stopw.value,spectra)>
+			<input type="button" value="open" onClick=openspec(openw.value)>
+
 		 </form>
       </body>
 

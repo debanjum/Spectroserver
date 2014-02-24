@@ -94,17 +94,35 @@ io.sockets.on 'connection', (socket) ->
 		if debug is true then console.log startwave,stopwave
 		start = parseInt startwave
 		stop = parseInt stopwave
+		spectrum_id= parseInt Date.now()			#Get Spectra Set Identifier
 		
 		# Storing Spectra in Database
 		for wavelength in [start..stop] by 5
 			i = 999 - (stopwave - wavelength)
-			spectrum = new Spectrum								# Creating Document 'spectrum' from Model 'Spectrum'
-			spectrum.spectrum_id = parseInt Date.now() / 10		# Spectrum Set Identifier
+			spectrum = new Spectrum					# Creating Document 'spectrum' from Model 'Spectrum'
+			spectrum.spectrum_id = spectrum_id		# Spectrum Set Identifier
 			spectrum.wavelength = wavelength
 			spectrum.intensity = spectra[i]
 			`spectrum.save(function (err, spectrum) { if (err) { console.log(err); } })`	# Save Spectra Document to MongoDB
+	
+		# For Finding All Documents in Model
+		`Spectrum.find(function (err, spectrum) { if (err) { console.log(err); } else { console.log(spectrum); } })` # Mongoose Find
+		
+	socket.on 'openspec', (openw) ->
+		openspec = "#4!."
+		if debug is true then console.log openspec
+		`Spectrum.find({ 'spectrum_id': openw }, 'wavelength intensity', function (err, spectrum) 
+		{
+		 if (err) return handleError(err); 
+		 console.log(spectrum[0].wavelength, spectrum[0].intensity)
+		 for(i=0; i<spectrum.length; i++)
+		 {
+		 	socket.emit('data', spectrum[i].intensity);
+			console.log('Message : ' + spectrum[i].intensity);
+		 }})`
+		
 			
-
+			
 cleanData = '' # this stores the clean data
 readData = ''  # this stores the buffer
 sf = false     # flag to write to serialport, for communicating with arduino, ...

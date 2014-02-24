@@ -1,0 +1,6 @@
+.*
+!.gitignore
+*~
+.\#*
+\#*\#
+nodejs/node_modules

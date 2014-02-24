@@ -1,6 +1,6 @@
 {
-  "name": "spectroserver",
-  "description": "spectrometer control and spectral data serving application",
+  "name": "Spectroserver",
+  "description": "A Real-Time Spectral Data Visualisation & Spectrophotometer Control Application",
   "version": "0.0.1",
   "private": true,
   "dependencies": {

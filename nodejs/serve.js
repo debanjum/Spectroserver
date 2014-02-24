@@ -122,22 +122,36 @@
         return socket.emit('sff');
       }
     });
-    return socket.on('savespec', function(startwave, stopwave, spectra) {
-      var i, savespec, start, stop, wavelength, _results;
+    socket.on('savespec', function(startwave, stopwave, spectra) {
+      var i, savespec, spectrum_id, start, stop, wavelength;
       savespec = "#3!.";
       if (debug === true) console.log(startwave, stopwave);
       start = parseInt(startwave);
       stop = parseInt(stopwave);
-      _results = [];
+      spectrum_id = parseInt(Date.now());
       for (wavelength = start; wavelength <= stop; wavelength += 5) {
         i = 999 - (stopwave - wavelength);
         spectrum = new Spectrum;
-        spectrum.spectrum_id = parseInt(Date.now() / 10);
+        spectrum.spectrum_id = spectrum_id;
         spectrum.wavelength = wavelength;
         spectrum.intensity = spectra[i];
-        _results.push(spectrum.save(function (err, spectrum) { if (err) { console.log(err); } }));
+        spectrum.save(function (err, spectrum) { if (err) { console.log(err); } });
       }
-      return _results;
+      return Spectrum.find(function (err, spectrum) { if (err) { console.log(err); } else { console.log(spectrum); } });
+    });
+    return socket.on('openspec', function(openw) {
+      var openspec;
+      openspec = "#4!.";
+      if (debug === true) console.log(openspec);
+      return Spectrum.find({ 'spectrum_id': openw }, 'wavelength intensity', function (err, spectrum) 
+		{
+		 if (err) return handleError(err); 
+		 console.log(spectrum[0].wavelength, spectrum[0].intensity)
+		 for(i=0; i<spectrum.length; i++)
+		 {
+		 	socket.emit('data', spectrum[i].intensity);
+			console.log('Message : ' + spectrum[i].intensity);
+		 }});
     });
   });
 

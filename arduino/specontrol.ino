@@ -1,17 +1,17 @@
-// LUT Writer
+// Specontroller
 // by 
+// Ganesh Gopal, Debanjum Singh Solanky
 
-// Demonstrates use of the Wire library
+// Uses the Wire library
 // Writes data to an I2C/TWI slave device
-// Refer to the "Wire Slave Receiver" example for use with this
 
 // Created 12th November 2013
 
-// This example code is in the public domain.
+// This code is in the public domain.
 
 
 #include <Wire.h>
-#define MCP4726_CMD_WRITEDAC            (0x40)  // Writes data to the DAC
+#define MCP4726_CMD_WRITEDAC            (0x40)  // Writes data to the MCP4725 DAC
 #define MCP4726_CMD_WRITEDACEEPROM      (0x60)  // Writes data to the DAC and the EEPROM (persisting the assigned value after reset)
 
 //Analog output array

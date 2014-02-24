@@ -10,12 +10,12 @@ INSTALLATION
 ---------------
 1. [Install](https://github.com/joyent/node/wiki/installation) [NodeJS](http://nodejs.org)
 2. [Install](http://docs.mongodb.org/manual/installation/) [MongoDB](http://mongodb.org)
-3. Connect Arduino to Development Computer & Upload ```arduino/lutwriter.ino```
+3. Connect Arduino to Development Computer & Upload ```arduino/specontrol.ino```
 4. Install the Application
 ```sh
 $ cd /path/to/working/directory
-$ git clone https://github.com/debanjum/spectroserver.git	 # Cloning Application Repository
-$ cd spectroserver/nodejs
+$ git clone https://github.com/debanjum/Spectroserver.git  # Cloning Repository
+$ cd Spectroserver/nodejs
 $ npm install	 # Installing Application Dependencies
 $ node serve.js	 # Starting NodeJS Server
 ```
@@ -25,7 +25,7 @@ $ node serve.js	 # Starting NodeJS Server
 CONTRIBUTING
 ---------------
 1. Interface arduino to spectrophotometer and connect to development computer
-2. Edit ```nodejs/serve.coffee```, ```spectra/index.html```, ```arduino/lutwriter.ino``` etc as required
+2. Edit ```nodejs/serve.coffee```, ```spectra/index.html```, ```arduino/specontrol.ino``` etc as required
 3. Convert Coffee to JS ```$ coffee -o ./ -c serve.coffee``` & Start Server ```$ node serve.js```
 4. Open ```spectra/index.html``` in browser & start testing
 
@@ -43,11 +43,11 @@ DEBUGGING
 
 BUGS
 ---------------
-Please file bug reports at https://github.com/debanjum/spectroserver/issues
+Please file bug reports at https://github.com/debanjum/Spectroserver/issues
 
 
 LICENSE
 ---------------
 This program is free software; it is distributed under the GNU General Public License v3.
 
-[GPLv3](https://github.com/debanjum/COPYING) © [debanjum](https://github.com/debanjum/AUTHORS)
+[GPLv3](./COPYING) © [debanjum](./AUTHORS)
