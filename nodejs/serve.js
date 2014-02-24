@@ -1,5 +1,5 @@
 (function() {
-  var SerialPort, Spectra, SpectraSchema, app, ard_data, cleanData, client, db, debug, express, fs, http, io, mongoose, port, readData, redis, redses, resetspec, scan, serialport, server, sf;
+  var SerialPort, Spectrum, SpectrumSchema, app, ard_data, cleanData, client, db, debug, express, fs, http, io, mongoose, port, readData, redis, redses, resetspec, scan, serialport, server, sf, spectrum;
 
   SerialPort = require('serialport').SerialPort;
 
@@ -39,18 +39,24 @@
 
   db.once('open', function callback () { console.log('Conntected To Mongo Database'); });;
 
-  SpectraSchema = new mongoose.Schema({
-    key: {
+  SpectrumSchema = new mongoose.Schema({
+    spectrum_id: {
       type: Number,
       min: 0
     },
-    value: {
+    wavelength: {
+      type: Number,
+      min: 0
+    },
+    intensity: {
       type: Number,
       min: 0
     }
   });
 
-  Spectra = mongoose.model('Spectra', SpectraSchema);
+  Spectrum = mongoose.model('Spectrum', SpectrumSchema);
+
+  spectrum = new Spectrum;
 
   app = express();
 
@@ -117,28 +123,19 @@
       }
     });
     return socket.on('savespec', function(startwave, stopwave, spectra) {
-      var Spec, i, savespec, wavelength, _results;
+      var i, savespec, start, stop, wavelength, _results;
       savespec = "#3!.";
-      if (debug === true) {
-        console.log(startwave, stopwave, spectra[979], spectra[978], spectra[980], spectra[981], spectra[982]);
-      }
-      wavelength = startwave;
+      if (debug === true) console.log(startwave, stopwave);
+      start = parseInt(startwave);
+      stop = parseInt(stopwave);
       _results = [];
-      while (wavelength <= stopwave) {
+      for (wavelength = start; wavelength <= stop; wavelength += 5) {
         i = 999 - (stopwave - wavelength);
-        Spec = new Spectra;
-        Spec.key = wavelength;
-        Spec.value = spectra[i];
-        Spec.save;
-        console.log(i, wavelength, spectra[i]);
-        _results.push((function() {
-          var _results2;
-          _results2 = [];
-          for (i = 1; i <= 5; i++) {
-            _results2.push(wavelength++);
-          }
-          return _results2;
-        })());
+        spectrum = new Spectrum;
+        spectrum.spectrum_id = parseInt(Date.now() / 10);
+        spectrum.wavelength = wavelength;
+        spectrum.intensity = spectra[i];
+        _results.push(spectrum.save(function (err, spectrum) { if (err) { console.log(err); } }));
       }
       return _results;
     });

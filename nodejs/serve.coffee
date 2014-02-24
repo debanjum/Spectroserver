@@ -23,12 +23,23 @@ db = mongoose.connection
 `db.once('open', function callback () { console.log('Conntected To Mongo Database'); });`
 
 # Creating Schema
-SpectraSchema = new mongoose.Schema(
-  key: { type: Number, min: 0 }
-  value: { type: Number, min: 0 }
+SpectrumSchema = new mongoose.Schema(
+  spectrum_id: { type: Number, min: 0 }
+  wavelength: { type: Number, min: 0 }
+  intensity: { type: Number, min: 0 }
   )
-# Creating Model 'Spectra' with 'SpectraSchema' Schema
-Spectra = mongoose.model 'Spectra', SpectraSchema
+
+# Creating Model 'Spectrum' with 'SpectrumSchema' Schema
+Spectrum = mongoose.model 'Spectrum', SpectrumSchema 
+
+# Creating Document with Model
+spectrum = new Spectrum
+
+# For Removing All Documents in Model
+#`Spectrum.remove(function (err, spectrum) { if (err) { return handleError(err); }  Spectrum.findById(spectrum._id, function (err, spectrum) { console.log(spectrum); }) })`
+
+# For Finding All Documents in Model
+# `Spectrum.find(function (err, spectrum) { if (err) { console.log(err); } else { console.log(spectrum); } })` # Mongoose Find 
 
 # Server listens for get requests, socket.io communication at http port
 app = express()
@@ -80,29 +91,19 @@ io.sockets.on 'connection', (socket) ->
 
 	socket.on 'savespec', (startwave,stopwave,spectra) ->
 		savespec = "#3!."
-		if debug is true then console.log startwave,stopwave,spectra[979],spectra[978],spectra[980],spectra[981],spectra[982]
-		wavelength = startwave
-		# Storing Spectra in Database [if can't pass "spectra" array then pass each value whenever recieved for each value and save only when button pressed]
-		while wavelength <= stopwave
-        i = 999 - (stopwave - wavelength)
-        Spec = new Spectra
-        Spec.key = wavelength
-        Spec.value = spectra[i]
-        Spec.save
-        console.log i, wavelength, spectra[i], Spec.find
-        for i in [1..5]
-          wavelength++
-        #Spec.find
-        
-        
-#`Spec.save(function (err) {if (err) console.log ('Error on spectrum save!')});`
-        
-
-		# Creating Redis Database ??
-			#`client.select(2, function (err,log) { console.log(err,log); });` # Selecting redis DB; Default is 0
-			#`client.rpush('spectra', spectra);`
-				#OR
-			#client.rpush.apply(client, ['spectra'].concat(spectra).concat(function(err, ok){ console.log(err, ok); }));
+		if debug is true then console.log startwave,stopwave
+		start = parseInt startwave
+		stop = parseInt stopwave
+		
+		# Storing Spectra in Database
+		for wavelength in [start..stop] by 5
+			i = 999 - (stopwave - wavelength)
+			spectrum = new Spectrum								# Creating Document 'spectrum' from Model 'Spectrum'
+			spectrum.spectrum_id = parseInt Date.now() / 10		# Spectrum Set Identifier
+			spectrum.wavelength = wavelength
+			spectrum.intensity = spectra[i]
+			`spectrum.save(function (err, spectrum) { if (err) { console.log(err); } })`	# Save Spectra Document to MongoDB
+			
 
 cleanData = '' # this stores the clean data
 readData = ''  # this stores the buffer
