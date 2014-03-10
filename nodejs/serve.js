@@ -1,21 +1,13 @@
 (function() {
-  var SerialPort, Spectrum, SpectrumSchema, app, ard_data, cleanData, client, db, debug, express, fs, http, io, mongoose, port, readData, redis, redses, resetspec, scan, serialport, server, sf, spectrum;
+  var SerialPort, Spectrum, SpectrumSchema, ard_data, cleanData, db, debug, fs, http, io, mongoose, port, readData, resetspec, scan, serialport, sf, spectrum;
 
   SerialPort = require('serialport').SerialPort;
 
   fs = require('fs');
 
-  express = require('express');
-
   io = require('socket.io');
 
   http = require('http');
-
-  redis = require('redis');
-
-  redses = require('connect-redis')(express);
-
-  client = redis.createClient;
 
   mongoose = require('mongoose');
 
@@ -58,34 +50,9 @@
 
   spectrum = new Spectrum;
 
-  app = express();
-
-  server = http.createServer(app);
-
-  server.listen(7000);
-
-  io = io.listen(server);
+  io = require('socket.io').listen(7000);
 
   io.set('log level', 3);
-
-  app.use(express.static(__dirname + '/public'));
-
-  app.use(express.cookieParser());
-
-  app.set('view engine', 'jade');
-
-  app.get('/', function(req, res) {
-    res.sendfile(__dirname + '/public/client.html');
-    return req.session.views++;
-  });
-
-  app.get('/libraries/RGraph.line.js', function(req, res) {
-    return res.sendfile(__dirname + '/libraries/RGraph.line.js');
-  });
-
-  app.get('/libraries/RGraph.common.core.js', function(req, res) {
-    return res.sendfile(__dirname + '/libraries/RGraph.common.core.js');
-  });
 
   io.sockets.on('connection', function(socket) {
     socket.on('message', function(msg) {

@@ -1,17 +1,12 @@
 {
   "name": "Spectroserver",
   "description": "A Real-Time Spectral Data Visualisation & Spectrophotometer Control Application",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "dependencies": {
     "mongodb": "latest",
     "mongoose": "latest",
-    "hiredis":"latest",
-    "redis":"latest",
-    "connect-redis": "latest",
-    "express": "3.4.0",
-    "socket.io": "0.9.16",
-    "toobusy": "latest",
+    "socket.io": "latest",
     "serialport": "latest"
   }
 }

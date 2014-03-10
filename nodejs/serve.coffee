@@ -1,11 +1,7 @@
 {SerialPort}  =   require('serialport')
 fs 			      =   require 'fs'
-express 	    =   require 'express'
 io 			      =   require 'socket.io'
 http 		      =   require 'http'
-redis         =   require 'redis'
-redses        =   require('connect-redis')(express)
-client        =   redis.createClient #'/var/run/redis/redis.sock'
 mongoose      =   require 'mongoose'
 
 
@@ -42,29 +38,8 @@ spectrum = new Spectrum
 # `Spectrum.find(function (err, spectrum) { if (err) { console.log(err); } else { console.log(spectrum); } })` # Mongoose Find 
 
 # Server listens for get requests, socket.io communication at http port
-app = express()
-server = http.createServer app
-server.listen 7000
-io = io.listen server
+io = require('socket.io').listen(7000);
 io.set 'log level', 3
-
-# Session configuration
-app.use express.static(__dirname + '/public')
-app.use express.cookieParser()
-#app.use express.session {secret: "CoffeeSpectrum", store: new redses({client: client, db: 2}), cookie: { maxAge: 60000 } }
-#app.use express.session {secret: "CoffeeSpectrum", cookie: { maxAge: 60000 } }
-app.set 'view engine', 'jade'
-
-# Routes
-app.get '/', (req, res) ->
-    res.sendfile __dirname + '/public/client.html'
-    req.session.views++ #Sessions Counter [testing]
-    
-app.get '/libraries/RGraph.line.js', (req, res) ->
-    res.sendfile __dirname + '/libraries/RGraph.line.js'
-    
-app.get '/libraries/RGraph.common.core.js', (req, res) ->
-    res.sendfile __dirname + '/libraries/RGraph.common.core.js'
     
 # Socket Signal
 io.sockets.on 'connection', (socket) ->
