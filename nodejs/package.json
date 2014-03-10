@@ -6,6 +6,7 @@
   "dependencies": {
     "mongodb": "latest",
     "mongoose": "latest",
+    "express": "latest",
     "socket.io": "latest",
     "serialport": "latest"
   }

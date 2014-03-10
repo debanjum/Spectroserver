@@ -1,5 +1,6 @@
 {SerialPort}  =   require('serialport')
 fs 			      =   require 'fs'
+express 	    =   require 'express'
 io 			      =   require 'socket.io'
 http 		      =   require 'http'
 mongoose      =   require 'mongoose'
@@ -38,8 +39,54 @@ spectrum = new Spectrum
 # `Spectrum.find(function (err, spectrum) { if (err) { console.log(err); } else { console.log(spectrum); } })` # Mongoose Find 
 
 # Server listens for get requests, socket.io communication at http port
-io = require('socket.io').listen(7000);
+app = express()
+server = http.createServer app
+server.listen 7000
+io = io.listen server
 io.set 'log level', 3
+
+# Session configuration
+app.use express.static(__dirname + '/spectra')
+app.use express.cookieParser()
+app.set 'view engine', 'jade'
+
+# Routes
+app.get '/', (req, res) ->
+    res.sendfile __dirname + '/spectra/index.html'
+    req.session.views++
+
+app.get '/spectra/images/social/github.png', (req, res) ->
+    res.sendfile __dirname + '/spectra/images/social/github.png'
+
+app.get '/spectra/images/social/rss.png', (req, res) ->
+    res.sendfile __dirname + '/spectra/images/social/rss.png'
+
+app.get '/spectra/font/fontawesome-webfont.ttf', (req, res) ->
+    res.sendfile __dirname + '/spectra/font/fontawesome-webfont.ttf'
+    
+app.get '/spectra/favicon.png', (req, res) ->
+    res.sendfile __dirname + '/spectra/favicon.png'
+    
+app.get '/spectra/atom.xml', (req, res) ->
+    res.sendfile __dirname + '/spectra/atom.xml'
+    
+app.get '/spectra/images/test.svg', (req, res) ->
+    res.sendfile __dirname + '/spectra/images/test.svg'
+
+app.get '/spectra/javascripts/snap.svg-min.js', (req, res) ->
+	res.sendfile __dirname + '/spectra/javascripts/snap.svg-min.js'
+	
+app.get '/spectra/javascripts/RGraph.line.js', (req, res) ->
+    res.sendfile __dirname + '/spectra/javascripts/RGraph.line.js'
+    
+app.get '/spectra/javascripts/RGraph.common.core.js', (req, res) ->
+    res.sendfile __dirname + '/spectra/javascripts/RGraph.common.core.js'
+
+app.get '/spectra/javascripts/jquery.fancybox.pack.js', (req, res) ->
+    res.sendfile __dirname + '/spectra/javascripts/jquery.fancybox.pack.js'
+    
+app.get '/spectra/stylesheets/screen.css', (req, res) ->
+    res.sendfile __dirname + '/spectra/stylesheets/screen.css'
     
 # Socket Signal
 io.sockets.on 'connection', (socket) ->

@@ -1,9 +1,11 @@
 (function() {
-  var SerialPort, Spectrum, SpectrumSchema, ard_data, cleanData, db, debug, fs, http, io, mongoose, port, readData, resetspec, scan, serialport, sf, spectrum;
+  var SerialPort, Spectrum, SpectrumSchema, app, ard_data, cleanData, db, debug, express, fs, http, io, mongoose, port, readData, resetspec, scan, serialport, server, sf, spectrum;
 
   SerialPort = require('serialport').SerialPort;
 
   fs = require('fs');
+
+  express = require('express');
 
   io = require('socket.io');
 
@@ -50,9 +52,70 @@
 
   spectrum = new Spectrum;
 
-  io = require('socket.io').listen(7000);
+  app = express();
+
+  server = http.createServer(app);
+
+  server.listen(7000);
+
+  io = io.listen(server);
 
   io.set('log level', 3);
+
+  app.use(express.static(__dirname + '/spectra'));
+
+  app.use(express.cookieParser());
+
+  app.set('view engine', 'jade');
+
+  app.get('/', function(req, res) {
+    res.sendfile(__dirname + '/spectra/index.html');
+    return req.session.views++;
+  });
+
+  app.get('/spectra/images/social/github.png', function(req, res) {
+    return res.sendfile(__dirname + '/spectra/images/social/github.png');
+  });
+
+  app.get('/spectra/images/social/rss.png', function(req, res) {
+    return res.sendfile(__dirname + '/spectra/images/social/rss.png');
+  });
+
+  app.get('/spectra/font/fontawesome-webfont.ttf', function(req, res) {
+    return res.sendfile(__dirname + '/spectra/font/fontawesome-webfont.ttf');
+  });
+
+  app.get('/spectra/favicon.png', function(req, res) {
+    return res.sendfile(__dirname + '/spectra/favicon.png');
+  });
+
+  app.get('/spectra/atom.xml', function(req, res) {
+    return res.sendfile(__dirname + '/spectra/atom.xml');
+  });
+
+  app.get('/spectra/images/test.svg', function(req, res) {
+    return res.sendfile(__dirname + '/spectra/images/test.svg');
+  });
+
+  app.get('/spectra/javascripts/snap.svg-min.js', function(req, res) {
+    return res.sendfile(__dirname + '/spectra/javascripts/snap.svg-min.js');
+  });
+
+  app.get('/spectra/javascripts/RGraph.line.js', function(req, res) {
+    return res.sendfile(__dirname + '/spectra/javascripts/RGraph.line.js');
+  });
+
+  app.get('/spectra/javascripts/RGraph.common.core.js', function(req, res) {
+    return res.sendfile(__dirname + '/spectra/javascripts/RGraph.common.core.js');
+  });
+
+  app.get('/spectra/javascripts/jquery.fancybox.pack.js', function(req, res) {
+    return res.sendfile(__dirname + '/spectra/javascripts/jquery.fancybox.pack.js');
+  });
+
+  app.get('/spectra/stylesheets/screen.css', function(req, res) {
+    return res.sendfile(__dirname + '/spectra/stylesheets/screen.css');
+  });
 
   io.sockets.on('connection', function(socket) {
     socket.on('message', function(msg) {
